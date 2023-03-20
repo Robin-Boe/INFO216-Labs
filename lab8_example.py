@@ -9,11 +9,14 @@ dbpedia = Namespace("https://dbpedia.org/page/")
 
 g.bind("ex", ex)
 g.bind("foaf", FOAF)
-''' NOTE: Look at the serialized output and spot the differences with and without bind '''
-# g.bind("schema", schema)
+g.bind("schema", schema)
+''' NOTE: Look at the serialized output and spot the differences with and without bind on dbpedia'''
 # g.bind("dbpedia", dbpedia) 
 
 # --- Information about the graph ---
+g.add((ex.Emma, RDF.type, ex.Student))
+g.add((ex.Emma, FOAF.knows, ex.Cade))
+
 g.add((ex.Emma, ex.neighborTo, ex.Cade))
 
 g.add((ex.Emma, ex.hasFather, ex.Tom))
@@ -52,8 +55,10 @@ g.add((ex.groupPartner, RDF.type, OWL.TransitiveProperty))
 g.add((ex.birthdate, RDF.type, OWL.FunctionalProperty))
 g.add((ex.socialSecurityNumber, RDF.type, OWL.InverseFunctionalProperty))
 
-#Closure
+# Closure
 owlrl.DeductiveClosure(owlrl.RDFS_OWLRL_Semantics).expand(g)
 
-# g.serialize("lab8_example.xml", format="xml")
+# Exports a serialzed XML file of the graph
+# g.serialize("lab8_example.xml", format="xml") 
+
 print(g.serialize())
