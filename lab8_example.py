@@ -14,7 +14,7 @@ g.bind("foaf", FOAF)
 # g.bind("dbpedia", dbpedia) 
 
 # --- Information about the graph ---
-g.add((ex.Emma, ex.neighbourTo, ex.Cade))
+g.add((ex.Emma, ex.neighborTo, ex.Cade))
 
 g.add((ex.Emma, ex.hasFather, ex.Tom))
 g.add((ex.Emma, ex.livesWith, ex.Tom))
@@ -33,7 +33,7 @@ g.add((FOAF.knows, OWL.equivalentProperty, schema.knows))
 g.add((ex.Student, OWL.equivalentClass, dbpedia.Student))
 
 # Properties
-g.add((ex.neighbourTo, RDF.type, OWL.SymmetricProperty))
+g.add((ex.neighborTo, RDF.type, OWL.SymmetricProperty))
 
 g.add((ex.hasFather, RDF.type, OWL.AsymmetricProperty))
 g.add((ex.hasFather, RDF.type, OWL.IrreflexiveProperty))
