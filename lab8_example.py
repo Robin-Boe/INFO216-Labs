@@ -19,7 +19,6 @@ g.add((ex.Emma, RDF.type, ex.Student))
 g.add((ex.Emma, FOAF.knows, ex.Cade))
 
 g.add((ex.Emma, ex.neighborTo, ex.Cade))
-g.add((ex.Emma, ex.involved, ex.FBI))
 
 g.add((ex.Emma, ex.hasFather, ex.Tom))
 g.add((ex.Emma, ex.livesWith, ex.Tom))
@@ -42,8 +41,6 @@ g.add((ex.hasFather, OWL.inverseOf, ex.fatherOf))
 g.add((ex.Emma, OWL.differentFrom, ex.Cade))
 g.add((FOAF.knows, OWL.equivalentProperty, schema.knows))
 g.add((ex.Student, OWL.equivalentClass, dbpedia.Student))
-
-g.add((ex.involved, OWL.equivalentProperty, ex.leading))
 
 # Properties
 g.add((ex.neighborTo, RDF.type, OWL.SymmetricProperty))
