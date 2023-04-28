@@ -1,0 +1,29 @@
+#Shape
+@prefix ex: <http://example.org/> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+ex:UserShape a sh:NodeShape; 
+                     sh:targetClass ex:User; 
+                     sh:property [                  
+                                sh:path ex:birthdate; 
+                                sh:minCount 1; 
+                                sh:maxCount 1; 
+                                sh:datatype xsd:string; 
+                     ].
+
+#Turtle
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ex: <http://example.org/> .
+
+ex:Donal_Trump 
+    a ex:User;
+    foaf:name 
+        "Donald Trump" ;
+    ex:birthdate 
+        "1946-06-14"^^xsd:date.
