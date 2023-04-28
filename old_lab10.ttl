@@ -1,0 +1,67 @@
+@prefix ex: <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Bachelor_Student rdfs:subClassOf ex:Student ;
+    owl:intersectionOf ( ex:Student [ a owl:Restriction ;
+                owl:allValuesFrom ex:Bachelor_Course ;
+                owl:onProperty ex:hasCourse ] ) .
+
+ex:Course rdfs:subClassOf [ owl:oneOf ( ex:Bachelor_Course ex:Master_Course ex:Ph.D_Course ) ] .
+
+ex:Master_Student rdfs:subClassOf ex:Student ;
+    owl:intersectionOf ( ex:Student [ a owl:Restriction ;
+                owl:allValuesFrom ( [ a owl:Restriction ;
+                            owl:maxQualifiedCardinality 1 ;
+                            owl:onClass ex:Bachelor_Course ;
+                            owl:onProperty ex:hasCourse ] [ a owl:Restriction ;
+                            owl:onProperty ex:hasCourse ;
+                            owl:someValuesFrom ex:Master_Course ] ) ;
+                owl:onProperty ex:hasCourse ] ) .
+
+ex:Ph.D_Student rdfs:subClassOf ex:Student ;
+    owl:intersectionOf ( ex:Student [ a owl:Restriction ;
+                owl:allValuesFrom ( [ a owl:Restriction ;
+                            owl:maxQualifiedCardinality 2 ;
+                            owl:onClass ex:Master_Course ;
+                            owl:onProperty ex:hasCourse ] [ a owl:Restriction ;
+                            owl:onProperty ex:hasCourse ;
+                            owl:someValuesFrom ex:Ph.D_Course ] ) ;
+                owl:onProperty ex:hasCourse ] ) .
+
+ex:PhD_Student owl:complementOf [ a owl:Restriction ;
+            owl:allValuesFrom ex:bachelor_courses ;
+            owl:onProperty ex:course ] .
+
+ex:Straight_A_Student owl:intersectionOf ( ex:Student [ a owl:Restriction ;
+                owl:allValuesFrom "A" ;
+                owl:onProperty ex:grade ] [ a owl:Restriction ;
+                owl:onProperty ex:grade ;
+                owl:someValuesFrom "A" ] ) .
+
+ex:Student_Number a owl:FunctionalProperty,
+        owl:InverseFunctionalProperty .
+
+ex:University_Graduate owl:intersectionOf ( ex:Graduate [ a owl:Restriction ;
+                owl:onProperty ex:degree ;
+                owl:someValuesFrom ex:University ] ) .
+
+ex:Graduate owl:intersectionOf [ a owl:Restriction ;
+            owl:allValuesFrom [ rdfs:range rdfs:Datatype ;
+                    owl:oneOf ( "A" "B" "C" "D" "E" ) ] ;
+            owl:onProperty ex:grade ],
+        ( ex:Person [ a owl:Restriction ;
+                owl:minCardinality 1 ;
+                owl:onProperty ex:degree ] ) .
+
+ex:grade rdfs:range [ a rdfs:Datatype ;
+            owl:oneOf ( "A" "B" "C" "D" "E" "F" ) ] .
+
+ex:Student owl:intersectionOf ( ex:Person [ a owl:Restriction ;
+                owl:cardinality 1 ;
+                owl:onProperty ex:averageGrade ] [ a owl:Restriction ;
+                owl:cardinality 1 ;
+                owl:onProperty ex:studentNumber ] ) .
+
