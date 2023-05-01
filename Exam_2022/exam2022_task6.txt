@@ -1,0 +1,150 @@
+prefix ex: <http://ex.org#> 
+prefix owl: <http://www.w3.org/2002/07/owl#> 
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+prefix xsd: <http://www.w3.org/2001/XMLSchema#> 
+
+///////////////////// TASK 6A - QUERIES /////////////////////////
+
+--- List all Paper title-s. ---
+SELECT ?title WHERE{
+  ?s ex:title ?title.
+}
+
+--- List all publisher Organization-s in alphabetical order. ---
+SELECT DISTINCT ?publisher WHERE{
+  ?s ex:publisher ?publisher.
+}
+
+ORDER BY ?publisher
+
+--- List all Author-s along with the title-s of the Paper-s they have written. ---
+SELECT  ?author ?title WHERE{
+  ?s ex:author ?author;
+     ex:title ?title
+}
+
+ORDER BY ?author
+
+--- List all Country-s and numbers of Paper-s from that Country. ---
+SELECT  ?country (COUNT(?paper) as ?count) WHERE{
+  ?person ex:country ?country.
+  ?paper ex:author ?person .
+}
+GROUP BY ?country
+
+--- List all Author-s of more than one Paper in descending order (of paper numbers) ---
+SELECT  ?author (COUNT(?author) as ?count) WHERE{
+  ?paper ex:author ?author .
+}
+GROUP BY ?author
+HAVING (?count > 1)
+ORDER BY DESC(?count)
+
+--- For each Author, write the first and last year they have published a Paper. ---
+SELECT  ?author (MIN(?year) as ?first_year) (MAX(?year) as ?last_year)  WHERE{
+  ?paper ex:author ?author;
+         ex:year ?year.
+}
+GROUP BY ?author
+
+--- List all Authors that are not affiliated with an Organization in Germany. ---
+#This task builds on the 2nd update task
+SELECT DISTINCT ?author WHERE{
+  ?paper ex:author ?author.
+  ?author ex:affiliation ?org.
+  ?org ex:locatedIn ?country.
+  FILTER(?country != ex:Germany)
+}
+
+--- Is James Hendler the author of more than one Paper? ---
+ASK{
+  SELECT (COUNT(?paper) as ?count) WHERE{
+    ?paper ex:author ex:James_Hendler.
+  }
+  HAVING (?count > 1)
+}
+
+--- Create a new graph of all Author-s that have author-ed a Paper with Christian Bizer, including their affiliation-s and country-s. ---
+CONSTRUCT{
+  ?author ?predicate ?object.
+}
+WHERE{
+  ?paper ex:author ex:Christian_Bizer;
+        ex:author ?author.
+  ?author ?predicate ?object.
+}
+
+--- Create a new graph of all Author-s that have author-ed a Paper with Christian Bizer, including their Paper-s, affiliation-s and country-s. ---
+CONSTRUCT{
+  ?author ?predicate ?object.
+  ?author ex:authorOf ?title.
+}
+WHERE{
+  ?paper ex:author ex:Christian_Bizer;
+         ex:author ?author.
+  ?author ?predicate ?object.
+  ?paper2 ex:author ?author;
+          ex:title ?title.
+}
+
+///////////////////// TASK 6B - UPDATES /////////////////////////
+
+--- An Organization that is an Author's affiliation is an Institution. ---
+INSERT{
+  ?org rdf:type ex:Institution.
+}
+WHERE{
+  ?author ex:affiliation ?org.
+}
+
+--- If an Author has a country, then that Author's affiliation Organization is locatedIn the same Country ---
+INSERT{
+  ?org ex:locatedIn ?country.
+}
+WHERE{
+  ?author ex:affiliation ?org;
+          ex:country ?country.
+}
+
+--- A Paper is producedBy the Organization-s its Author-s are affiliated with. ---
+INSERT{
+  ?paper ex:producedBy ?org.
+}
+WHERE{
+  ?paper ex:author ?author.
+  ?author ex:affiliation ?org.
+}
+
+--- A Paper is producedIn the Country-s of its Author-s Institutions are located in ---
+INSERT{
+  ?paper ex:producedIn ?country.
+}
+WHERE{
+  ?paper ex:author ?author.
+  ?author ex:affiliation ?org.
+  ?org ex:locatedIn ?country.
+}
+
+--- Delete all direct (country) connections between Author-s and Country-s. ---
+DELETE{
+  ?author ex:country ?country.
+}
+WHERE{
+  ?author ex:country ?country.
+}
+
+--- If a Paper has more than one year, delete the most recent ones. ---
+#This works if the multiple years are stored in a collection (list)
+DELETE{
+  ?paper ex:year ?multipleYears.
+}
+INSERT{
+  ?paper ex:year ?minYear.
+}
+WHERE{
+  ?paper ex:year ?year.
+  OPTIONAL{
+    BIND(?year as ?multipleYears)
+    ?year rdf:first ?minYear.
+  }
+}

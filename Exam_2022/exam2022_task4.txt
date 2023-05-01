@@ -1,0 +1,78 @@
+@prefix : <http://ex.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+TASK 4A - Simple Restriction
+
+--- An Organization is a kind of Agent. ---
+
+:Organization rdfs:subClassOf :Agent .
+
+--- The object in an affiliation-triple is an Organization ---
+
+:affiliation rdfs:range :Organization .
+
+--- The subject in an affiliation-triple is an Author. ---
+
+:affiliation rdfs:domain :Author .
+
+--- A Paper is published in only one Publication. ---
+
+:publication a owl:FunctionalProperty .
+
+--- A Paper cannot have more than one publication year. ---
+
+:year a owl:FunctionalProperty .
+
+--- A Paper cannot be its own publication. ---
+
+:publication a owl:IrrflexiveProperty .
+
+--- publication is a transitive relation. ---
+
+:publication a owl:TransitiveProperty .
+
+--- Different Author-s have different name-s. ---
+
+:name a owl:InverseFunctionalProperty .
+
+--- An Author is not an Organization. ---
+
+:Author owl:disjointWith :Organization
+
+--- A Publication title is a string. ---
+
+:title rdfs:range xsd:string .
+
+TASK 4B - Complex Restriction
+
+--- A Paper must have at least one author. ---
+
+:Paper rdfs:subClassOf [a owl:Restriction;
+                         owl:onProperty :author;
+                         owl:minCardinality "1"^^xsd:integer].
+
+--- A Paper has exactly one title. ---
+
+:Paper rdfs:subClassOf [a owl:Restriction;
+                        owl:onProperty :title;
+                        owl:cardinality "1"^^xsd:integer].
+
+--- A year must be in range from 1900 to 2050 (inclusive). ---
+
+:year rdfs:range [a rdfs:Datatype;
+                    owl:onDatatype xsd:integer;
+                    owl:withRestriction (
+                        [xsd:minInclusive "1900"^^xsd:integer]
+                        [xsd:maxInclusive "2050"^^xsd:integer])
+                ].
+
+--- Author-s, Organization-s, and Country-s are disjoint. ---
+
+[a owl:AllDisjointWith] owl:distinctMembers (:Author :Organization :Country).
+
+--- A Publisher must be either of ACM, IEEE CS, Springer Nature, or IGI Global. ---
+
+:Publisher owl:equivlantClass [owl:unionOf (:ACM :IEEECS :SpringerNature :IGIGlobal)].
