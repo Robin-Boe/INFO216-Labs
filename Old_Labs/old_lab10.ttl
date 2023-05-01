@@ -31,10 +31,6 @@ ex:Ph.D_Student rdfs:subClassOf ex:Student ;
                             owl:someValuesFrom ex:Ph.D_Course ] ) ;
                 owl:onProperty ex:hasCourse ] ) .
 
-ex:PhD_Student owl:complementOf [ a owl:Restriction ;
-            owl:allValuesFrom ex:bachelor_courses ;
-            owl:onProperty ex:course ] .
-
 ex:Straight_A_Student owl:intersectionOf ( ex:Student [ a owl:Restriction ;
                 owl:allValuesFrom "A" ;
                 owl:onProperty ex:grade ] [ a owl:Restriction ;
