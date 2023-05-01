@@ -1,5 +1,4 @@
-import owlrl
-from rdflib import Graph, OWL, RDF, RDFS, BNode, Namespace, Literal, XSD, FOAF, URIRef
+from rdflib import Graph, OWL, RDF, RDFS, BNode, Namespace, Literal, XSD
 from rdflib.collection import Collection
 
 g = Graph()
