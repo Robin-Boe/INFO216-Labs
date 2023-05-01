@@ -157,13 +157,7 @@ Collection(g, task11_b5, [ex.Student, task11_b4])
 g.add((ex["Ph.D_Student"], OWL.intersectionOf, task11_b5))
 
 #a Ph.D. student cannot take any bachelor course
-#already true, but here is an example of how to do it
-task12_b1 = BNode()
-g.add((task12_b1, RDF.type, OWL.Restriction))
-g.add((task12_b1, OWL.onProperty, ex.course))
-g.add((task12_b1, OWL.allValuesFrom, ex.bachelor_courses))
-
-g.add((ex["Ph.D_Student"], OWL.complementOf, task12_b1))
+#already true
 
 print(g.serialize())
 # g.serialize("old_lab10.ttl", format="ttl")
