@@ -1,0 +1,27 @@
+Remebmer that these answers are not official, but are my answers to the task
+
+1) Are built into the semantics of RDFS
+2) Given a node and an edge type, to decide nodes that are candidates to form a plausible triple.
+3) Irreflexive
+4) A JSON format for serialising linked data
+5) @rule: signifies an entailment rule that applies to the object
+6) Everyone who receives medical treatment is a patient (ex:receivedMedicalTreatment rdfs:domain ex:Patient)
+7) The properties of a resource determines its RDFS class
+8) RDFS classes restrict which properties RDF resources can have
+9) Used to query RDF graphs
+10) Irreflexive & Asymmetric
+11) Given two nodes, to find edge types that are candidates to form a plausible triple.
+12) A Motorbike is a Vehicle (ex:Motorbike rdf:type ex:Vehicle)
+13) A triple is unpacked into four new triples
+14) New members cannot be added without deleting triples
+15) Be an rdf:List
+16) always have at least one rdf:type
+17) Given two nodes and an edge type, to decide whether they form a plausible triple.
+18) any of these
+19) Use URIs that are standardised by the W3C
+20) Use URIs that are language-independent.
+21) Linked Open Data
+22) Reflexive, Symmetric, Transitive
+23) Irreflexive
+24) Irreflexive, Asymmetric, Functional
+25) Symmetric, Irreflexive
