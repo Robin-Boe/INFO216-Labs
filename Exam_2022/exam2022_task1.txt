@@ -21,7 +21,7 @@ Remebmer that these answers are not official, but are my answers to the task
 19) Use URIs that are standardised by the W3C
 20) Use URIs that are language-independent.
 21) Linked Open Data
-22) Reflexive, Symmetric, Transitive
+22) Symmetric, Transitive
 23) Irreflexive
 24) Irreflexive, Asymmetric, Functional
 25) Symmetric, Irreflexive
