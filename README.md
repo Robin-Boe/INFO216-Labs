@@ -13,5 +13,5 @@ Requires the following software for one or more examples:
 * Python
 * (Python library) SPARQLWrapper
 * (Python library) RDFLib
-* Blazegraph
+* Blazegraph / GraphDB
 * Protégé
