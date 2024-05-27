@@ -1,0 +1,58 @@
+# Legg disse til som trippler i GraphDB, så du kan se om du gjør endringer. Her burde du også legge til de andre setningene for de andre oppgavene
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+
+INSERT DATA{
+    ex:Pulp_Fiction ex:year "1950"^^xsd:string;
+                    ex:title "Pulp Fiction".
+    ex:Pulp_Fiction2 ex:year "1994"^^xsd:year.
+}
+
+# For den første, så er du nesten der. Du må huske å legge til delete setningen
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+
+DELETE{
+    ?s ex:year ?o.
+}
+WHERE{
+    ?s ex:year ?o.
+    FILTER(datatype(?o) = xsd:string)
+}
+
+# For å teste kan du kjøre dette
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+
+SELECT ?s ?o WHERE{
+    ?s ex:year ?o.
+}
+
+# For den andre, trenger du en delete, insert, where. Dette er fordi du skal erstatte en gammel trippel med en ny. Følgende er svar på den oppgaven.
+# Her bruker du bind for å konstruere en ny variabel, hvor du legger til ved hjelp av STRLANG en language tag.
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+
+DELETE{
+    ?s ex:title ?o. 
+}
+INSERT{
+    ?s ex:title ?o2.
+}
+WHERE{
+    ?s ex:title ?o.
+    BIND(STRLANG(?o, "en") AS ?o2)
+}
+
+# Du kan teste endringen ved hjelp av dette
+
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ex: <http://example.org#>
+
+SELECT ?s ?o WHERE{
+    ?s ex:title ?o.
+}
